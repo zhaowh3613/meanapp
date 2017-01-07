@@ -6,6 +6,8 @@ var config = require('./config'),
   methodOverride = require('method-override'),
   session = require('express-session');
 
+var uri = 'mongodb://localhost/mean-dev';
+var db = require('mongoose').connect(uri);
 module.exports = function(){
     var app = express();
 
@@ -29,11 +31,12 @@ module.exports = function(){
         resave: true,
         secret: config.sessionSecret
     }));
-    
+
     app.set('views', './app/views');
     app.set('view engine', 'ejs');
     
     require('../app/routes/index.server.routes.js') (app);
+    require('../app/routes/users.server.routes.js') (app);
 
     app.use(express.static('./public'));
     return app;
